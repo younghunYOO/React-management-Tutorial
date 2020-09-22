@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Customer from './components/Customer';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
+import Paper from '@material-ui/core/Paper';//책갈피??
+import Table from '@material-ui/core/Table';//ui 테이블
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
