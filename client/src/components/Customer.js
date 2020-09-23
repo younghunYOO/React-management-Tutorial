@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TableRow from '@material-ui/core/TableRow';//ui 테이블
 import TableCell from '@material-ui/core/TableCell';
 
-class Customer extends React.Component{
+class Customer extends Component{
     render(){
         return(
             <TableRow>

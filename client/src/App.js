@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+
 import './App.css';
 import Customer from './components/Customer';
 import Paper from '@material-ui/core/Paper';//책갈피??
@@ -9,16 +9,19 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import {withStyles} from '@material-ui/core/styles'//css를 위한 라이브러리
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 //css
 const styles= theme =>({
   root:{
     width:'100%',
-    marginTop:theme.spacing.unit * 3,
+    marginTop:theme.spacing(3),
     overflowX:"auto"
   },
   table:{
     minWidth:1080
+  },
+  progress:{
+    margin:theme.spacing(2)
   }
 });
 
@@ -26,17 +29,26 @@ const styles= theme =>({
 class App extends Component{
 
   state = {
-    customers:""
+    customers:"",
+    completed: 0
   }
 
   componentDidMount(){
-    this.callApi().then(res=>this.setState({customers: res})).catch(err=> console.log(err));
+    this.timer = setInterval(this.progress,20);
+    this.callApi()
+    .then(res => this.setState({customers: res}))
+    .catch(err => console.log(err));
   }
 
   callApi = async () => {
     const response = await fetch('/api/customers');
     const body = await response.json();
     return body;
+  }
+
+  progress = () =>{
+    const {completed} = this.state;
+    this.setState({completed:completed >= 100 ? 0 : completed + 1});
   }
 
   render(){
@@ -65,7 +77,13 @@ class App extends Component{
             gender={c.gender}
             job={c.job}
           />);
-        }) : ""}
+        }) : <TableRow>
+            <TableCell colSpan="6" align="center">
+              <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
+
+            </TableCell>
+          </TableRow>
+          }
       </TableBody>
       </Table>
       </Paper>
